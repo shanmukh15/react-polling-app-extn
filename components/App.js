@@ -20,7 +20,7 @@ const App = React.createClass({
   },
 
   componentWillMount() {
-    this.socket = io('http://192.168.0.101:8080');
+    this.socket = io('http://192.168.0.105:8080');
     this.socket.on('connect', this.connect);
     this.socket.on('disconnect', this.disconnect);
     this.socket.on('welcome', this.updateState);

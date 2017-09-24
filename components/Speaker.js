@@ -8,12 +8,13 @@ let Questions = require('./parts/Questions');
 let SurveyAdd = require('./parts/AddSurvey');
 
 const Speaker = React.createClass({
-  render() {
-    return (
+     render() {
+   return (
       <div>
         <Display if={this.props.status === 'connected'}>
           <Display if={this.props.member.name && this.props.member.type === 'speaker'}>
             <Questions emit={this.props.emit} questions={this.props.questions}></Questions>
+            <Display if={this.props.results != "undefined"}><div>{JSON.stringify(this.props.results)}</div></Display>
             <SurveyAdd emit={this.props.emit}></SurveyAdd>
             <Attendance audience={this.props.audience}></Attendance>
           </Display>

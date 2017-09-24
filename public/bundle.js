@@ -24133,7 +24133,7 @@
 	  },
 
 	  componentWillMount: function componentWillMount() {
-	    this.socket = io('http://192.168.0.101:8080');
+	    this.socket = io('http://192.168.0.105:8080');
 	    this.socket.on('connect', this.connect);
 	    this.socket.on('disconnect', this.disconnect);
 	    this.socket.on('welcome', this.updateState);
@@ -43680,6 +43680,15 @@
 	          Display,
 	          { 'if': this.props.member.name && this.props.member.type === 'speaker' },
 	          React.createElement(Questions, { emit: this.props.emit, questions: this.props.questions }),
+	          React.createElement(
+	            Display,
+	            { 'if': this.props.results != "undefined" },
+	            React.createElement(
+	              'div',
+	              null,
+	              JSON.stringify(this.props.results)
+	            )
+	          ),
 	          React.createElement(SurveyAdd, { emit: this.props.emit }),
 	          React.createElement(Attendance, { audience: this.props.audience })
 	        ),
