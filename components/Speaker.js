@@ -10,7 +10,7 @@ let SurveyAdd = require('./parts/AddSurvey');
 const Speaker = React.createClass({
      render() {
    return (
-      <div>
+      <div className="form animated flipInX">
         <Display if={this.props.status === 'connected'}>
           <Display if={this.props.member.name && this.props.member.type === 'speaker'}>
             <Questions emit={this.props.emit} questions={this.props.questions}></Questions>

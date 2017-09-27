@@ -32949,7 +32949,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'form animated flipInX' },
 	      React.createElement(
 	        Display,
 	        { 'if': this.props.status === 'connected' },
@@ -33152,6 +33152,7 @@
 	          'You answered: ',
 	          this.state.answer
 	        ),
+	        '//',
 	        React.createElement(Donuet, { result: this.props.result, question: this.props.currentQuestion, emit: this.props.emit })
 	      ),
 	      React.createElement(
@@ -43672,7 +43673,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'form animated flipInX' },
 	      React.createElement(
 	        Display,
 	        { 'if': this.props.status === 'connected' },

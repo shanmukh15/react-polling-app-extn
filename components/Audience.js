@@ -9,7 +9,7 @@ const Audience = React.createClass({
     
   render() {
     return (
-      <div>
+      <div className="form animated flipInX">
         
         <Display if={this.props.status === 'connected'}>
 

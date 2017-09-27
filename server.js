@@ -2,7 +2,6 @@
 
 var express = require('express');
 var _ = require('lodash');
-
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -95,4 +94,4 @@ io.on('connection', function(socket) {
   console.log('Connected %s sockets', connections.length);
 });
 
-server.listen(8080, console.log('Server is running at \'http://localhost:8080\''));
+server.listen(8080, console.log('Server is running at \'localhost\' : 8080'));

@@ -69,7 +69,7 @@ const Ask = React.createClass({
             {this.state.choices.map(this.addChoice)}
           </div>
           <h3>You answered: {this.state.answer}</h3>
-          <Donuet result={this.props.result} question={this.props.currentQuestion} emit={this.props.emit}/>
+          //<Donuet result={this.props.result} question={this.props.currentQuestion} emit={this.props.emit}/>
         </Display>
         <Display if={!this.state.answer}>
           <h2>{this.props.question.q}</h2>
