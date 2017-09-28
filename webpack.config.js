@@ -1,5 +1,5 @@
 let webpack = require('webpack');
-let path = require('path');
+//let path = require('path');
 
 
 module.exports = {
@@ -17,10 +17,10 @@ module.exports = {
         d3: 'd3',
         jquery: 'jquery'
     })
- ],*/
+ ],
  resolve: {
     alias: {
         'd3': path.join(__dirname, 'd3.min.js')
     }
-}
+}*/
 };

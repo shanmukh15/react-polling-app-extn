@@ -16,19 +16,19 @@ const adderS = React.createClass({
     
   render() {
     return ( 
-        <div class="panel panel-default col-*-8">
-            <div class="panel-heading">Add Survey</div>
-                <div class="panel-body">
+        <div className="panel panel-default col-*-8">
+            <div className="panel-heading"><h2>Add Survey</h2></div>
+                <div className="panel-body">
                     <form action="javascript:void(0)" onSubmit={this.join}>         
-                        <label for="exampleInputEmail1">Question</label>
+                        <label forName="exampleInputEmail1">Question</label>
                         <input type="text" className="form-control" id="exampleInputEmail1" ref="q" placeholder="Enter Survey Description" required/>
-                        <label for="exampleInputEmail2">option1</label>
+                        <label forName="exampleInputEmail2">option1</label>
                         <input type="text" className="form-control" id="exampleInputEmail2" ref="a" placeholder="Option 1" required/>
-                        <label for="exampleInputEmail3">option2</label>
+                        <label forName="exampleInputEmail3">option2</label>
                         <input type="text" className="form-control" id="exampleInputEmail3" ref="b" placeholder="Option 2" required/>
-                        <label for="exampleInputEmail4">option3</label> 
+                        <label forName="exampleInputEmail4">option3</label> 
                         <input type="text" className="form-control" id="exampleInputEmail4" ref="c" placeholder="Option 3" required/>
-                        <label for="exampleInputEmail5">option4</label>
+                        <label forName="exampleInputEmail5">option4</label>
                         <input type="text" className="form-control" id="exampleInputEmail5" ref="d" placeholder="Option 4" required/>
                         <button type="submit" className="btn btn-default">Submit</button>
                     </form>

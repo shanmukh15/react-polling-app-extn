@@ -9,7 +9,7 @@ const Audience = React.createClass({
     
   render() {
     return (
-      <div className="form animated flipInX">
+      <div className="form animated tada">
         
         <Display if={this.props.status === 'connected'}>
 
@@ -25,7 +25,7 @@ const Audience = React.createClass({
           </Display>
 
           <Display if={!this.props.member.name}>
-            <h2>!Make your vote Count!</h2>
+            <h2>! Make your vote Count !</h2>
             <Join emit={this.props.emit}/>
           </Display>
         </Display>

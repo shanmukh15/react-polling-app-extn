@@ -2,7 +2,6 @@
 
 let React = require('react');
 let Display = require('./Display');
-let Donuet = require('./Donuet');
 
 const Ask = React.createClass({
 
@@ -67,6 +66,7 @@ const Ask = React.createClass({
           <div className="row">
             {this.state.choices.map(this.addChoice)}
           </div>
+          <hr/>
           <h2>Your opted for : </h2>
           <h3>{this.state.answer}</h3>
         </Display>

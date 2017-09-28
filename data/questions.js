@@ -7,7 +7,7 @@ module.exports = [
     d: 'Excited'
   },
   {
-    q: 'What do you want next>>',
+    q: 'What do you want next??',
     a: 'Dance',
     b: 'Singing',
     c: 'Gaming',
