@@ -32,9 +32,8 @@ const Ask = React.createClass({
   },
 
   addChoice(choice, i) {
-    var buttonTypes = ['primary', 'success', 'warning', 'danger'];
     return(
-      <button onClick={this.selectChoice.bind(null, choice)} key={i} className={"col-xs-12 col-sm-6 btn btn-" + buttonTypes[i]}>
+      <button onClick={this.selectChoice.bind(null, choice)} key={i} className={"col-xs-12 col-sm-6 btn"}>
         {this.props.question[choice]}
       </button>
     );
@@ -68,8 +67,8 @@ const Ask = React.createClass({
           <div className="row">
             {this.state.choices.map(this.addChoice)}
           </div>
-          <h3>You answered: {this.state.answer}</h3>
-          //<Donuet result={this.props.result} question={this.props.currentQuestion} emit={this.props.emit}/>
+          <h2>Your opted for : </h2>
+          <h3>{this.state.answer}</h3>
         </Display>
         <Display if={!this.state.answer}>
           <h2>{this.props.question.q}</h2>

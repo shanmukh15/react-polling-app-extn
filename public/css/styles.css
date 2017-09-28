@@ -54,7 +54,7 @@ form a {
 }
 
 #questions>div>span:hover {
-  background-color: yellow;
+  background-color: rgba(220,57,45, 0.5);
 }
 
 #currentQuestion button {
@@ -63,7 +63,7 @@ form a {
 }
 
 #currentQuestion button:hover {
-  opacity: 0.9;
+  opacity: 0.4;
 }
 
 #chart {
@@ -71,8 +71,24 @@ form a {
     min-height: 400px;
 }
 
+.headercustom{
+    color :#fff;
+}
+
+.headercustom h1{
+  font-family: "Roboto";
+  font-size: 2em;
+  font-weight: 800;
+}
+
+.headercustom p{
+  font-family: "Roboto";
+  font-size: 1em;
+  font-weight: 600;
+}
+
 body {
-  background: #44c4e7 url("https://38.media.tumblr.com/d23deac40b06633b79520a8552f40b94/tumblr_nb1uhrRrge1st5lhmo1_1280.jpg") no-repeat center center fixed;
+  background: #f44336 url("../image/background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -88,9 +104,9 @@ body::before {
   position: fixed;
   top: 0;
   left: 0;
-  background: #44c4e7;
+  background: #f44336;
   /* IE Fallback */
-  background: rgba(68,196,231, 0.8);
+  background: rgba(220,57,45, 0.7);
   width: 100%;
   height: 100%;
 }
@@ -100,17 +116,27 @@ body::before {
   left: 50%;
   background: #fff;
   width: 285px;
-  margin: -140px 0 0 -182px;
+  margin: -140px 0 0 -140px;
   padding: 40px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
+
 .form h2 {
   margin: 0 0 20px;
-  line-height: 1;
-  color: #44c4e7;
-  font-size: 18px;
+  line-height: 2;
+  color: #f44336;
+  font-size: 20px;
   font-weight: 400;
 }
+
+.form h3 {
+  margin: 0 0 20px;
+  line-height: 1;
+  color: #000;
+  font-size: 20px;
+  font-weight: 600;
+}
+
 .form input {
   outline: none;
   display: block;
@@ -133,23 +159,25 @@ body::before {
   -o-transition: 0.2s linear;
   transition: 0.2s linear;
 }
+
 .form input:focus {
   color: #333;
-  border: 1px solid #44c4e7;
+  border: 1px solid #f44336;
 }
+
 .form button {
   cursor: pointer;
-  background: #44c4e7;
+  background: rgba(239,78,66,0.65);
   width: 100%;
   padding: 10px 15px;
   border: 0;
   color: #fff;
   font-family: "Roboto";
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 400;
-
 }
+
 .form button:hover {
-  background: #369cb8;
+  background: rgba(239,78,66,1);
 }
 

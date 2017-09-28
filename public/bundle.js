@@ -32905,7 +32905,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      "header",
-	      { className: "row" },
+	      { className: "row headercustom" },
 	      React.createElement(
 	        "div",
 	        { className: "col-xs-10" },
@@ -32968,13 +32968,14 @@
 	            React.createElement(
 	              'p',
 	              null,
+	              'Wow !! We got ',
 	              this.props.audience.length,
-	              ' audience members connected'
+	              ' members online'
 	            ),
 	            React.createElement(
 	              'p',
 	              null,
-	              'Questions will appear here'
+	              'Thank you for joining. Stay connected we will post the surveys as we head on..'
 	            )
 	          ),
 	          React.createElement(
@@ -32987,9 +32988,9 @@
 	          Display,
 	          { 'if': !this.props.member.name },
 	          React.createElement(
-	            'h1',
+	            'h2',
 	            null,
-	            'Join the session'
+	            '!Make your vote Count!'
 	          ),
 	          React.createElement(Join, { emit: this.props.emit })
 	        )
@@ -33101,10 +33102,9 @@
 	  },
 
 	  addChoice: function addChoice(choice, i) {
-	    var buttonTypes = ['primary', 'success', 'warning', 'danger'];
 	    return React.createElement(
 	      'button',
-	      { onClick: this.selectChoice.bind(null, choice), key: i, className: "col-xs-12 col-sm-6 btn btn-" + buttonTypes[i] },
+	      { onClick: this.selectChoice.bind(null, choice), key: i, className: "col-xs-12 col-sm-6 btn" },
 	      this.props.question[choice]
 	    );
 	  },
@@ -33147,13 +33147,15 @@
 	          this.state.choices.map(this.addChoice)
 	        ),
 	        React.createElement(
+	          'h2',
+	          null,
+	          'Your opted for : '
+	        ),
+	        React.createElement(
 	          'h3',
 	          null,
-	          'You answered: ',
 	          this.state.answer
-	        ),
-	        '//',
-	        React.createElement(Donuet, { result: this.props.result, question: this.props.currentQuestion, emit: this.props.emit })
+	        )
 	      ),
 	      React.createElement(
 	        Display,
@@ -43699,7 +43701,7 @@
 	          React.createElement(
 	            'h2',
 	            null,
-	            'Start the presentation:'
+	            'Start a Survey session:'
 	          ),
 	          React.createElement(JoinSpeaker, { emit: this.props.emit })
 	        )

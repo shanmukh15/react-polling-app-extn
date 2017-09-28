@@ -7,7 +7,7 @@ const Header = React.createClass({
 
   render() {
     return (
-      <header className="row">
+      <header className="row headercustom">
         <div className="col-xs-10">
           <h1>{this.props.title}</h1>
           <p>{this.props.speaker}</p>

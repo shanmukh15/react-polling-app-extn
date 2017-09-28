@@ -19,7 +19,7 @@ const Speaker = React.createClass({
             <Attendance audience={this.props.audience}></Attendance>
           </Display>
           <Display if={!this.props.member.name}>
-            <h2>Start the presentation:</h2>
+            <h2>Start a Survey session:</h2>
             <JoinSpeaker emit={this.props.emit}></JoinSpeaker>
           </Display>
         </Display>
