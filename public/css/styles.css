@@ -76,7 +76,15 @@ form a {
   display: block;
   cursor: pointer;
   border: 1px solid #ccc;
-  border-left: 5px solid rgba(220,57,45,1);
+  border-left: 8px solid;
+}
+
+#questions>div>span.ratingQ {
+  border-left-color: #ff2258;
+}
+
+#questions>div>span.surveyQ {
+  border-left-color: #00bcd4;
 }
 
 .badge {
@@ -96,7 +104,7 @@ form a {
 }
 
 #currentQuestion button:hover {
-  opacity: 0.4;
+  opacity: 1;
 }
 
 .headercustom{
@@ -215,3 +223,106 @@ body::before {
   background: rgba(239,78,66,1);
 }
 
+.switch {
+  position: relative;
+  display: inline-grid;
+  width: 60px;
+  height: 34px;
+}
+
+.switch.name {
+    margin: 2px 5px;
+    text-align: justify;
+    font-size: 20px;
+}
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(239,78,66,1);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: rgba(239,78,66,1);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px rgba(239,78,66,1);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+fieldset, label { margin: 0; padding: 0; }
+body{ margin: 20px; }
+
+/****** Style Star Rating Widget *****/
+
+.rating{ 
+  border: 1px solid grey;
+  float: left;
+}
+
+.submit {
+  display : inline-block;
+  border: 1px solid grey;
+  font-size : 1.25em;
+  padding : 5px;
+}
+
+.rating > input { display: none; }
+
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > label { 
+  color: #ddd; 
+  float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 

@@ -56,8 +56,8 @@
 	var App = __webpack_require__(206);
 	var Audience = __webpack_require__(261);
 	var Speaker = __webpack_require__(265);
-	var Board = __webpack_require__(271);
-	var Whoops404 = __webpack_require__(272);
+	var Board = __webpack_require__(273);
+	var Whoops404 = __webpack_require__(274);
 
 	ReactDOM.render(React.createElement(
 	  Router,
@@ -33073,106 +33073,163 @@
 	var Display = __webpack_require__(262);
 
 	var Ask = React.createClass({
-	  displayName: 'Ask',
+	    displayName: 'Ask',
 
-	  getInititalState: function getInititalState() {
-	    return {
-	      choices: [],
-	      answer: ''
-	    };
-	  },
+	    getInititalState: function getInititalState() {
+	        return {
+	            choices: [],
+	            answer: ''
+	        };
+	    },
 
-	  componentWillMount: function componentWillMount() {
-	    this.loadChoices();
-	  },
+	    componentWillMount: function componentWillMount() {
+	        this.loadChoices();
+	    },
 
-	  componentWillReceiveProps: function componentWillReceiveProps() {
-	    this.loadChoices();
-	  },
+	    componentWillReceiveProps: function componentWillReceiveProps() {
+	        this.loadChoices();
+	    },
 
-	  loadChoices: function loadChoices() {
-	    console.log('sessionStorage.answer', sessionStorage.answer);
-	    var choices = Object.keys(this.props.question);
-	    choices.shift();
-	    this.setState({
-	      choices: choices,
-	      answer: sessionStorage.answer
-	    });
-	  },
+	    loadChoices: function loadChoices() {
+	        console.log('sessionStorage.answer', sessionStorage.answer);
 
-	  addChoice: function addChoice(choice, i) {
-	    return React.createElement(
-	      'button',
-	      { onClick: this.selectChoice.bind(null, choice), key: i, className: "col-xs-12 col-sm-6 btn" },
-	      this.props.question[choice]
-	    );
-	  },
+	        var tempChoice = Object.keys(this.props.question);
+	        tempChoice.shift();tempChoice.shift();
+	        var choices = [];
+	        if (this.props.question.type == "survey") {
+	            for (var i in tempChoice) {
+	                if (this.props.question[tempChoice[i]] != "") {
+	                    choices.push(tempChoice[i]);
+	                }
+	            }
+	        } else if (this.props.question.type == "rating") {
+	            choices = tempChoice;
+	        }
 
-	  selectChoice: function selectChoice(choice) {
-	    if (this.state.answer) {
-	      this.props.emit('answer', {
-	        question: this.props.question,
-	        choice: this.props.question[choice],
-	        update: true,
-	        old: this.state.answer
-	      });
-	    } else {
-	      this.props.emit('answer', {
-	        question: this.props.question,
-	        choice: this.props.question[choice],
-	        update: false,
-	        old: ''
-	      });
+	        this.setState({
+	            choices: choices,
+	            answer: sessionStorage.answer
+	        });
+	    },
+
+	    addChoice: function addChoice(choice, i) {
+	        if (choice != '') {
+	            return React.createElement(
+	                'button',
+	                { onClick: this.selectChoice.bind(null, choice), key: i, className: "col-xs-12 col-sm-6 btn" },
+	                this.props.question[choice]
+	            );
+	        }
+	    },
+
+	    selectChoice: function selectChoice(choice) {
+	        if (this.state.answer) {
+	            this.props.emit('answer', {
+	                question: this.props.question,
+	                choice: this.props.question[choice],
+	                update: true,
+	                old: this.state.answer
+	            });
+	        } else {
+	            this.props.emit('answer', {
+	                question: this.props.question,
+	                choice: this.props.question[choice],
+	                update: false,
+	                old: ''
+	            });
+	        }
+	        this.setState({ answer: this.props.question[choice] });
+	        sessionStorage.answer = this.props.question[choice];
+	    },
+
+	    submitRating: function submitRating() {
+	        var rate = document.querySelector('input[name="rating"]:checked').value;
+	        if (this.state.answer) {
+	            this.props.emit('answer', {
+	                question: this.props.question,
+	                choice: Number(rate) - Number(this.state.answer),
+	                update: true,
+	                old: ''
+	            });
+	        } else {
+	            this.props.emit('answer', {
+	                question: this.props.question,
+	                choice: Number(rate),
+	                update: false,
+	                old: ''
+	            });
+	        }
+	        this.setState({ answer: rate });
+	        sessionStorage.answer = rate;
+	    },
+
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            { id: 'currentQuestion' },
+	            React.createElement(
+	                Display,
+	                { 'if': this.props.question.type === "survey" },
+	                React.createElement(
+	                    'h2',
+	                    null,
+	                    this.props.question.q
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    this.state.choices.map(this.addChoice)
+	                )
+	            ),
+	            React.createElement(
+	                Display,
+	                { 'if': this.props.question.type === "rating" },
+	                React.createElement(
+	                    'h2',
+	                    null,
+	                    this.props.question.q
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'fieldset',
+	                        { className: 'rating' },
+	                        React.createElement('input', { type: 'radio', id: 'star5', name: 'rating', value: '5' }),
+	                        React.createElement('label', { forName: 'star5', title: '5' }),
+	                        React.createElement('input', { type: 'radio', id: 'star4', name: 'rating', value: '4' }),
+	                        React.createElement('label', { forName: 'star4', title: '4' }),
+	                        React.createElement('input', { type: 'radio', id: 'star3', name: 'rating', value: '3' }),
+	                        React.createElement('label', { forName: 'star3', title: '3' }),
+	                        React.createElement('input', { type: 'radio', id: 'star2', name: 'rating', value: '2' }),
+	                        React.createElement('label', { forName: 'star2', title: '2' }),
+	                        React.createElement('input', { type: 'radio', id: 'star1', name: 'rating', value: '1' }),
+	                        React.createElement('label', { forName: 'star1', title: '1' })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: ' btn btn-danger submit', onClick: this.submitRating },
+	                        'Submit'
+	                    )
+	                )
+	            ),
+	            React.createElement(
+	                Display,
+	                { 'if': this.state.answer },
+	                React.createElement('hr', null),
+	                React.createElement(
+	                    'h2',
+	                    null,
+	                    'Your opted for : '
+	                ),
+	                React.createElement(
+	                    'h3',
+	                    null,
+	                    this.state.answer
+	                )
+	            )
+	        );
 	    }
-	    this.setState({ answer: this.props.question[choice] });
-	    sessionStorage.answer = this.props.question[choice];
-	  },
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { id: 'currentQuestion' },
-	      React.createElement(
-	        Display,
-	        { 'if': this.state.answer },
-	        React.createElement(
-	          'h2',
-	          null,
-	          this.props.question.q
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          this.state.choices.map(this.addChoice)
-	        ),
-	        React.createElement('hr', null),
-	        React.createElement(
-	          'h2',
-	          null,
-	          'Your opted for : '
-	        ),
-	        React.createElement(
-	          'h3',
-	          null,
-	          this.state.answer
-	        )
-	      ),
-	      React.createElement(
-	        Display,
-	        { 'if': !this.state.answer },
-	        React.createElement(
-	          'h2',
-	          null,
-	          this.props.question.q
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          this.state.choices.map(this.addChoice)
-	        )
-	      )
-	    );
-	  }
 	});
 
 	module.exports = Ask;
@@ -33188,8 +33245,8 @@
 	var JoinSpeaker = __webpack_require__(266);
 	var Attendance = __webpack_require__(267);
 	var Questions = __webpack_require__(268);
-	var SurveyAdd = __webpack_require__(269);
-	var Result = __webpack_require__(270);
+	var CheckerForm = __webpack_require__(269);
+	var Result = __webpack_require__(272);
 
 	var Speaker = React.createClass({
 	  displayName: 'Speaker',
@@ -33227,7 +33284,7 @@
 	            React.createElement(Result, { options: this.props.results })
 	          ),
 	          React.createElement('hr', null),
-	          React.createElement(SurveyAdd, { emit: this.props.emit }),
+	          React.createElement(CheckerForm, { emit: this.props.emit }),
 	          React.createElement('hr', null)
 	        ),
 	        React.createElement(
@@ -33380,13 +33437,17 @@
 	    this.props.emit('ask', question);
 	  },
 
+	  reset: function reset() {
+	    this.props.emit('reset', null);
+	  },
+
 	  addQuestion: function addQuestion(question, i) {
 	    return React.createElement(
 	      'div',
 	      { key: i, className: 'col-xs-8 col-sm-6 col-md-6' },
 	      React.createElement(
 	        'span',
-	        { onClick: this.askQuestion.bind(null, question) },
+	        { className: question.type == "survey" ? "surveyQ" : "ratingQ", onClick: this.askQuestion.bind(null, question) },
 	        question.q
 	      )
 	    );
@@ -33410,6 +33471,15 @@
 	        { className: 'panel-body' },
 	        React.createElement(
 	          'div',
+	          { className: 'btn btn-danger' },
+	          React.createElement(
+	            'span',
+	            { onClick: this.reset },
+	            'Reset'
+	          )
+	        ),
+	        React.createElement(
+	          'div',
 	          { id: 'questions', className: 'row' },
 	          this.props.questions.map(this.addQuestion)
 	        )
@@ -33427,6 +33497,75 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var AdderS = __webpack_require__(270);
+	var AdderR = __webpack_require__(271);
+
+	var CheckerForm = React.createClass({
+	    displayName: 'CheckerForm',
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            isChecked: true
+	        };
+	    },
+
+	    toggleChange: function toggleChange() {
+	        this.setState({
+	            isChecked: !this.state.isChecked
+	        }, (function () {}).bind(this));
+	    },
+
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            { className: 'panel panel-default col-*-8' },
+	            React.createElement(
+	                'div',
+	                { className: 'panel-heading' },
+	                React.createElement(
+	                    'h2',
+	                    null,
+	                    'Add Survey'
+	                )
+	            ),
+	            React.createElement(
+	                'div',
+	                { className: 'panel-body' },
+	                React.createElement(
+	                    'div',
+	                    null,
+	                    React.createElement(
+	                        'div',
+	                        { className: 'switch name' },
+	                        'Survey'
+	                    ),
+	                    React.createElement(
+	                        'label',
+	                        { className: 'switch' },
+	                        React.createElement('input', { type: 'checkbox', checked: this.state.isChecked, onChange: this.toggleChange }),
+	                        React.createElement('span', { className: 'slider round' })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'switch name' },
+	                        'Rating'
+	                    )
+	                ),
+	                this.state.isChecked ? React.createElement(AdderR, { emit: this.props.emit }) : React.createElement(AdderS, { emit: this.props.emit })
+	            )
+	        );
+	    }
+	});
+
+	module.exports = CheckerForm;
+
+/***/ }),
+/* 270 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
 
 	var adderS = React.createClass({
 	  displayName: 'adderS',
@@ -33436,9 +33575,9 @@
 	    var questionval = this.refs.q.value.trim();
 	    var opt1val = this.refs.a.value.trim();
 	    var opt2val = this.refs.b.value.trim();
-	    var opt3val = this.refs.c.value.trim();
-	    var opt4val = this.refs.d.value.trim();
-	    this.props.emit('addpoll', { q: questionval, a: opt1val, b: opt2val, c: opt3val, d: opt4val });
+	    var opt3val = this.refs.c.value != undefined ? this.refs.c.value.trim() : '';
+	    var opt4val = this.refs.d.value != undefined ? this.refs.d.value.trim() : '';
+	    this.props.emit('addpoll', { q: questionval, type: "survey", a: opt1val, b: opt2val, c: opt3val, d: opt4val });
 	    window.location.reload();
 	  },
 
@@ -33448,49 +33587,15 @@
 	      { className: 'panel panel-default col-*-8' },
 	      React.createElement(
 	        'div',
-	        { className: 'panel-heading' },
-	        React.createElement(
-	          'h2',
-	          null,
-	          'Add Survey'
-	        )
-	      ),
-	      React.createElement(
-	        'div',
 	        { className: 'panel-body' },
 	        React.createElement(
 	          'form',
 	          { action: 'javascript:void(0)', onSubmit: this.join },
-	          React.createElement(
-	            'label',
-	            { forName: 'exampleInputEmail1' },
-	            'Question'
-	          ),
-	          React.createElement('input', { type: 'text', className: 'form-control', id: 'exampleInputEmail1', ref: 'q', placeholder: 'Enter Survey Description', required: true }),
-	          React.createElement(
-	            'label',
-	            { forName: 'exampleInputEmail2' },
-	            'option1'
-	          ),
-	          React.createElement('input', { type: 'text', className: 'form-control', id: 'exampleInputEmail2', ref: 'a', placeholder: 'Option 1', required: true }),
-	          React.createElement(
-	            'label',
-	            { forName: 'exampleInputEmail3' },
-	            'option2'
-	          ),
-	          React.createElement('input', { type: 'text', className: 'form-control', id: 'exampleInputEmail3', ref: 'b', placeholder: 'Option 2', required: true }),
-	          React.createElement(
-	            'label',
-	            { forName: 'exampleInputEmail4' },
-	            'option3'
-	          ),
-	          React.createElement('input', { type: 'text', className: 'form-control', id: 'exampleInputEmail4', ref: 'c', placeholder: 'Option 3', required: true }),
-	          React.createElement(
-	            'label',
-	            { forName: 'exampleInputEmail5' },
-	            'option4'
-	          ),
-	          React.createElement('input', { type: 'text', className: 'form-control', id: 'exampleInputEmail5', ref: 'd', placeholder: 'Option 4', required: true }),
+	          React.createElement('input', { type: 'text', className: 'form-control', ref: 'q', placeholder: 'Enter Survey Description', required: true }),
+	          React.createElement('input', { type: 'text', className: 'form-control', ref: 'a', placeholder: 'Option 1', required: true }),
+	          React.createElement('input', { type: 'text', className: 'form-control', ref: 'b', placeholder: 'Option 2', required: true }),
+	          React.createElement('input', { type: 'text', className: 'form-control', ref: 'c', placeholder: 'Option 3' }),
+	          React.createElement('input', { type: 'text', className: 'form-control', ref: 'd', placeholder: 'Option 4' }),
 	          React.createElement(
 	            'button',
 	            { type: 'submit', className: 'btn btn-default' },
@@ -33505,7 +33610,48 @@
 	module.exports = adderS;
 
 /***/ }),
-/* 270 */
+/* 271 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var adderR = React.createClass({
+	  displayName: 'adderR',
+
+	  join: function join(e) {
+	    e.preventDefault();
+	    this.props.emit('addpoll', { q: this.refs.q.value.trim(), type: "rating", a: "", b: "", c: "", d: "" });
+	    window.location.reload();
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'panel panel-default col-*-8' },
+	      React.createElement(
+	        'div',
+	        { className: 'panel-body' },
+	        React.createElement(
+	          'form',
+	          { action: 'javascript:void(0)', onSubmit: this.join },
+	          React.createElement('input', { type: 'text', className: 'form-control', id: 'exampleInputEmail1', ref: 'q', placeholder: 'Enter Survey Description', required: true }),
+	          React.createElement(
+	            'button',
+	            { type: 'submit', className: 'btn btn-default' },
+	            'Submit'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = adderR;
+
+/***/ }),
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33568,7 +33714,7 @@
 	module.exports = Result;
 
 /***/ }),
-/* 271 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33594,7 +33740,7 @@
 	module.exports = Board;
 
 /***/ }),
-/* 272 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';

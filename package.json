@@ -1,6 +1,6 @@
 {
   "name": "react-polling-app-extn",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple polling app built with React and socket.io. This is extension to m0t0r's Base application",
   "main": "server.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "animate.css": "^3.5.2",
     "bootstrap": "^3.3.5",
     "express": "^4.15.5",
+    "font-awesome": "^4.7.0",
     "history": "^1.17.0",
     "jquery": "^3.2.1",
     "lodash": "^3.10.1",

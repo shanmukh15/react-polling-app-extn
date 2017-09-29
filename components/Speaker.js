@@ -5,11 +5,12 @@ let Display = require('./parts/Display');
 let JoinSpeaker = require('./parts/JoinSpeaker');
 let Attendance = require('./parts/Attendance');
 let Questions = require('./parts/Questions');
-let SurveyAdd = require('./parts/AddSurvey');
+let CheckerForm = require('./parts/CheckerForm');
 let Result = require('./parts/Result.js');
 
 const Speaker = React.createClass({
-     render() {
+    
+    render() {
    return (
       <div className="form speaker animated tada">
         <Display if={this.props.status === 'connected'}>
@@ -21,7 +22,7 @@ const Speaker = React.createClass({
                 <Result options={this.props.results}></Result>
             </Display>
             <hr/>
-            <SurveyAdd emit={this.props.emit}></SurveyAdd>
+            <CheckerForm emit={this.props.emit}/>
             <hr/>
           </Display>
           <Display if={!this.props.member.name}>
