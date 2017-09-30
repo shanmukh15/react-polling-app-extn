@@ -284,45 +284,35 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-fieldset, label { margin: 0; padding: 0; }
-body{ margin: 20px; }
+.rsr-root {
+  vertical-align: middle;
+  display: inline-block; }
 
-/****** Style Star Rating Widget *****/
+.rsr--editing:hover {
+  cursor: pointer; }
 
-.rating{ 
-  border: 1px solid grey;
-  float: left;
-}
-
-.submit {
-  display : inline-block;
-  border: 1px solid grey;
-  font-size : 1.25em;
-  padding : 5px;
-}
-
-.rating > input { display: none; }
-
-.rating > label:before { 
-  margin: 5px;
-  font-size: 1.25em;
-  font-family: FontAwesome;
+.rsr {
+  position: relative;
+  vertical-align: middle;
   display: inline-block;
-  content: "\f005";
-}
+  color: #e3e3e3;
+  overflow: hidden; }
 
-.rating > label { 
-  color: #ddd; 
-  float: right; 
-}
+.rsr__stars {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #F5A71B;
+  -webkit-transition: all 0.01s;
+  -moz-transition: all 0.01s;
+  transition: all 0.01s; }
 
-/***** CSS Magic to Highlight Stars on Hover *****/
+.rsr__caption {
+  font-size: 1.25em;
+  vertical-align: middle;
+  margin-right: 0.5em; }
 
-.rating > input:checked ~ label, /* show gold star when clicked */
-.rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
-
-.rating > input:checked + label:hover, /* hover current star when changing rating */
-.rating > input:checked ~ label:hover,
-.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
-.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+.rsr--disabled .rsr-container:hover {
+  cursor: not-allowed; }

@@ -20,7 +20,6 @@ var defaults = {
 app.use(express.static('./public'));
 app.use(express.static('./node_modules/bootstrap/dist'));
 app.use(express.static('./node_modules/animate.css'));
-app.use(express.static('./node_modules/font-awesome'));
 
 io.on('connection', function(socket) {
   connections.push(socket);

@@ -55,9 +55,9 @@
 
 	var App = __webpack_require__(206);
 	var Audience = __webpack_require__(261);
-	var Speaker = __webpack_require__(265);
-	var Board = __webpack_require__(273);
-	var Whoops404 = __webpack_require__(274);
+	var Speaker = __webpack_require__(267);
+	var Board = __webpack_require__(275);
+	var Whoops404 = __webpack_require__(276);
 
 	ReactDOM.render(React.createElement(
 	  Router,
@@ -33071,165 +33071,143 @@
 
 	var React = __webpack_require__(1);
 	var Display = __webpack_require__(262);
+	var Rater = __webpack_require__(265)['default'];
 
 	var Ask = React.createClass({
-	    displayName: 'Ask',
+	  displayName: 'Ask',
 
-	    getInititalState: function getInititalState() {
-	        return {
-	            choices: [],
-	            answer: ''
-	        };
-	    },
+	  getInititalState: function getInititalState() {
+	    return {
+	      choices: [],
+	      answer: ''
+	    };
+	  },
 
-	    componentWillMount: function componentWillMount() {
-	        this.loadChoices();
-	    },
+	  componentWillMount: function componentWillMount() {
+	    this.loadChoices();
+	  },
 
-	    componentWillReceiveProps: function componentWillReceiveProps() {
-	        this.loadChoices();
-	    },
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    this.loadChoices();
+	  },
 
-	    loadChoices: function loadChoices() {
-	        console.log('sessionStorage.answer', sessionStorage.answer);
+	  loadChoices: function loadChoices() {
+	    console.log('sessionStorage.answer', sessionStorage.answer);
 
-	        var tempChoice = Object.keys(this.props.question);
-	        tempChoice.shift();tempChoice.shift();
-	        var choices = [];
-	        if (this.props.question.type == "survey") {
-	            for (var i in tempChoice) {
-	                if (this.props.question[tempChoice[i]] != "") {
-	                    choices.push(tempChoice[i]);
-	                }
-	            }
-	        } else if (this.props.question.type == "rating") {
-	            choices = tempChoice;
+	    var tempChoice = Object.keys(this.props.question);
+	    tempChoice.shift();tempChoice.shift();
+	    var choices = [];
+	    if (this.props.question.type == "survey") {
+	      for (var i in tempChoice) {
+	        if (this.props.question[tempChoice[i]] != "") {
+	          choices.push(tempChoice[i]);
 	        }
-
-	        this.setState({
-	            choices: choices,
-	            answer: sessionStorage.answer
-	        });
-	    },
-
-	    addChoice: function addChoice(choice, i) {
-	        if (choice != '') {
-	            return React.createElement(
-	                'button',
-	                { onClick: this.selectChoice.bind(null, choice), key: i, className: "col-xs-12 col-sm-6 btn" },
-	                this.props.question[choice]
-	            );
-	        }
-	    },
-
-	    selectChoice: function selectChoice(choice) {
-	        if (this.state.answer) {
-	            this.props.emit('answer', {
-	                question: this.props.question,
-	                choice: this.props.question[choice],
-	                update: true,
-	                old: this.state.answer
-	            });
-	        } else {
-	            this.props.emit('answer', {
-	                question: this.props.question,
-	                choice: this.props.question[choice],
-	                update: false,
-	                old: ''
-	            });
-	        }
-	        this.setState({ answer: this.props.question[choice] });
-	        sessionStorage.answer = this.props.question[choice];
-	    },
-
-	    submitRating: function submitRating() {
-	        var rate = document.querySelector('input[name="rating"]:checked').value;
-	        if (this.state.answer) {
-	            this.props.emit('answer', {
-	                question: this.props.question,
-	                choice: Number(rate) - Number(this.state.answer),
-	                update: true,
-	                old: ''
-	            });
-	        } else {
-	            this.props.emit('answer', {
-	                question: this.props.question,
-	                choice: Number(rate),
-	                update: false,
-	                old: ''
-	            });
-	        }
-	        this.setState({ answer: rate });
-	        sessionStorage.answer = rate;
-	    },
-
-	    render: function render() {
-	        return React.createElement(
-	            'div',
-	            { id: 'currentQuestion' },
-	            React.createElement(
-	                Display,
-	                { 'if': this.props.question.type === "survey" },
-	                React.createElement(
-	                    'h2',
-	                    null,
-	                    this.props.question.q
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    this.state.choices.map(this.addChoice)
-	                )
-	            ),
-	            React.createElement(
-	                Display,
-	                { 'if': this.props.question.type === "rating" },
-	                React.createElement(
-	                    'h2',
-	                    null,
-	                    this.props.question.q
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'fieldset',
-	                        { className: 'rating' },
-	                        React.createElement('input', { type: 'radio', id: 'star5', name: 'rating', value: '5' }),
-	                        React.createElement('label', { forName: 'star5', title: '5' }),
-	                        React.createElement('input', { type: 'radio', id: 'star4', name: 'rating', value: '4' }),
-	                        React.createElement('label', { forName: 'star4', title: '4' }),
-	                        React.createElement('input', { type: 'radio', id: 'star3', name: 'rating', value: '3' }),
-	                        React.createElement('label', { forName: 'star3', title: '3' }),
-	                        React.createElement('input', { type: 'radio', id: 'star2', name: 'rating', value: '2' }),
-	                        React.createElement('label', { forName: 'star2', title: '2' }),
-	                        React.createElement('input', { type: 'radio', id: 'star1', name: 'rating', value: '1' }),
-	                        React.createElement('label', { forName: 'star1', title: '1' })
-	                    ),
-	                    React.createElement(
-	                        'div',
-	                        { className: ' btn btn-danger submit', onClick: this.submitRating },
-	                        'Submit'
-	                    )
-	                )
-	            ),
-	            React.createElement(
-	                Display,
-	                { 'if': this.state.answer },
-	                React.createElement('hr', null),
-	                React.createElement(
-	                    'h2',
-	                    null,
-	                    'Your opted for : '
-	                ),
-	                React.createElement(
-	                    'h3',
-	                    null,
-	                    this.state.answer
-	                )
-	            )
-	        );
+	      }
+	    } else if (this.props.question.type == "rating") {
+	      choices = tempChoice;
 	    }
+
+	    this.setState({
+	      choices: choices,
+	      answer: sessionStorage.answer
+	    });
+	  },
+
+	  selectChoice: function selectChoice(choice) {
+	    if (this.state.answer) {
+	      this.props.emit('answer', {
+	        question: this.props.question,
+	        choice: this.props.question[choice],
+	        update: true,
+	        old: this.state.answer
+	      });
+	    } else {
+	      this.props.emit('answer', {
+	        question: this.props.question,
+	        choice: this.props.question[choice],
+	        update: false,
+	        old: ''
+	      });
+	    }
+	    this.setState({ answer: this.props.question[choice] });
+	    sessionStorage.answer = this.props.question[choice];
+	  },
+
+	  submitRating: function submitRating(data) {
+	    var rate = data;
+	    this.props.emit('answer', {
+	      question: this.props.question,
+	      choice: this.state.answer ? Number(rate) - Number(this.state.answer) : Number(rate),
+	      update: true,
+	      old: ''
+	    });
+	    this.setState({ answer: rate });
+	    sessionStorage.answer = rate;
+	  },
+
+	  render: function render() {
+	    var _this = this;
+
+	    return React.createElement(
+	      'div',
+	      { id: 'currentQuestion' },
+	      React.createElement(
+	        Display,
+	        { 'if': this.props.question.type === "survey" },
+	        React.createElement(
+	          'h2',
+	          null,
+	          this.props.question.q
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          this.state.choices.map(this.addChoice)
+	        )
+	      ),
+	      React.createElement(
+	        Display,
+	        { 'if': this.props.question.type === "rating" },
+	        React.createElement(
+	          'h2',
+	          null,
+	          this.props.question.q
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(Rater, { name: 'sert', totalStars: 7, size: 30, onRatingClick: function (e, data) {
+	              e.preventDefault();e.stopPropagation();_this.submitRating(data.rating);
+	            } })
+	        )
+	      ),
+	      React.createElement(
+	        Display,
+	        { 'if': this.state.answer },
+	        React.createElement('hr', null),
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Your opted for : '
+	        ),
+	        React.createElement(
+	          'h3',
+	          null,
+	          this.state.answer
+	        )
+	      )
+	    );
+	  },
+
+	  addChoice: function addChoice(choice, i) {
+	    if (choice != '') {
+	      return React.createElement(
+	        'button',
+	        { onClick: this.selectChoice.bind(null, choice), key: i, className: "col-xs-12 col-sm-6 btn" },
+	        this.props.question[choice]
+	      );
+	    }
+	  }
 	});
 
 	module.exports = Ask;
@@ -33238,15 +33216,75 @@
 /* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	"use strict";function _interopRequireDefault(t){return t&&t.__esModule?t:{"default":t}}function _classCallCheck(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function _possibleConstructorReturn(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}function _inherits(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}function isFloat(t){return t===Number(t)&&t%1!==0}var _extends=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var a=arguments[e];for(var n in a)Object.prototype.hasOwnProperty.call(a,n)&&(t[n]=a[n])}return t},_createClass=function(){function t(t,e){for(var a=0;a<e.length;a++){var n=e[a];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(e,a,n){return a&&t(e.prototype,a),n&&t(e,n),e}}();Object.defineProperty(exports,"__esModule",{value:!0});var _react=__webpack_require__(1),_react2=_interopRequireDefault(_react),_reactDom=__webpack_require__(158),_reactDom2=_interopRequireDefault(_reactDom),_classnames=__webpack_require__(266),_classnames2=_interopRequireDefault(_classnames),StarRating=function(t){function e(t){_classCallCheck(this,e);var a=_possibleConstructorReturn(this,Object.getPrototypeOf(e).call(this,t));return a.state={currentRatingVal:t.rating,currentRatingPos:a.getStarRatingPosition(t.rating),editing:t.editing||!0,rating:t.rating,pos:a.getStarRatingPosition(t.rating),glyph:a.getStars(),size:t.size},a}return _inherits(e,t),_createClass(e,[{key:"componentWillMount",value:function(){this.min=0,this.max=this.props.totalStars||5,this.props.rating&&(this.state.editing=this.props.editing||!1)}},{key:"componentDidMount",value:function(){this.root=_reactDom2["default"].findDOMNode(this.refs.root),this.ratingContainer=_reactDom2["default"].findDOMNode(this.refs.ratingContainer)}},{key:"componentWillUnmount",value:function(){delete this.root,delete this.ratingContainer}},{key:"getStars",value:function(){for(var t="",e=this.props.totalStars,a=0;e>a;a++)t+="★";return t}},{key:"getPosition",value:function(t){return t.touches&&t.touches.length?t.touches[0].pageX-this.root.getBoundingClientRect().left:t.clientX-this.root.getBoundingClientRect().left}},{key:"getWidthFromValue",value:function(t){var e=this.min,a=this.max;return e>=t||e===a?0:t>=a?100:100*(t-e)/(a-e)}},{key:"applyPrecision",value:function(t,e){return parseFloat(t.toFixed(e))}},{key:"getDecimalPlaces",value:function(t){var e=(""+t).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);return e?Math.max(0,(e[1]?e[1].length:0)-(e[2]?+e[2]:0)):0}},{key:"getValueFromPosition",value:function(t){var e=this.getDecimalPlaces(this.props.step),a=this.ratingContainer.offsetWidth,n=this.max-this.min,i=n*t/(a*this.props.step);i=Math.ceil(i);var r=this.applyPrecision(parseFloat(this.min+i*this.props.step),e);return r=Math.max(Math.min(r,this.max),this.min)}},{key:"calculate",value:function(t){var e=this.getValueFromPosition(t),a=this.getWidthFromValue(e);return a+="%",{width:a,val:e}}},{key:"getStarRatingPosition",value:function(t){return this.getWidthFromValue(t)+"%"}},{key:"getRatingEvent",value:function(t){var e=this.getPosition(t);return this.calculate(e)}},{key:"getSvg",value:function(t){for(var e=[],a=0;a<this.props.totalStars;a++){var n={};n.transform="translate("+50*a+", 0)",n.fill=a+this.props.step<=t?"#FFA91B":"#C6C6C6",e.push(_react2["default"].createElement("path",_extends({},n,{key:"star-"+a,mask:"url(#half-star-mask)",d:"m0,18.1l19.1,0l5.9,-18.1l5.9,18.1l19.1,0l-15.4,11.2l5.9,18.1l-15.4,-11.2l-15.4,11.2l5.9,-18.1l-15.4,-11.2l0,0z"})))}var i={width:e.length*this.props.size+"px",height:this.props.size+"px"};return _react2["default"].createElement("svg",{className:"rsr__star",style:i,viewBox:"0 0 "+e.length+" 50",preserveAspectRatio:"xMinYMin meet",version:"1.1",xmlns:"http://www.w3.org/2000/svg"},_react2["default"].createElement("g",null,e.map(function(t){return t})))}},{key:"updateRating",value:function(t,e){this.setState({pos:t,rating:e})}},{key:"shouldComponentUpdate",value:function(t,e){return t!==this.props?(this.updateRating(this.getStarRatingPosition(t.rating),t.rating),!0):e.currentRatingVal!==this.state.currentRatingVal||e.rating!==this.state.rating}},{key:"handleMouseLeave",value:function(){this.setState({pos:this.state.currentRatingPos,rating:this.state.currentRatingVal})}},{key:"handleMouseMove",value:function(t){var e=this.getRatingEvent(t);this.updateRating(e.width,e.val)}},{key:"handleClick",value:function(t){if(this.props.disabled)return t.stopPropagation(),t.preventDefault(),!1;var e={currentRatingPos:this.state.pos,currentRatingVal:this.state.rating,caption:this.props.caption,name:this.props.name};this.setState(e),this.props.onRatingClick(t,{rating:this.state.rating,position:this.state.pos,caption:this.props.caption,name:this.props.name})}},{key:"treatName",value:function(t){return"string"==typeof t?t.toLowerCase().split(" ").join("_"):void 0}},{key:"getClasses",value:function(){return(0,_classnames2["default"])({"rsr-root":!0,"rsr--disabled":this.props.disabled,"rsr--editing":this.state.editing})}},{key:"getCaption",value:function(){return this.props.caption?_react2["default"].createElement("span",{className:"rsr__caption"},this.props.caption):null}},{key:"setAttrs",value:function(){var t={};return this.state.editing&&(t.onMouseMove=this.handleMouseMove.bind(this),t.onMouseLeave=this.handleMouseLeave.bind(this),t.onClick=this.handleClick.bind(this),t.onTouchStart=this.handleMouseMove.bind(this),t.onTouchEnd=this.handleTouchEnd.bind(this)),t}},{key:"handleTouchEnd",value:function(t){this.handleMouseLeave(t),this.handleClick(t)}},{key:"render",value:function(){var t=this.getClasses(),e=this.getCaption(),a=this.setAttrs();return _react2["default"].createElement("span",{className:"rsr-container"},e,_react2["default"].createElement("div",{ref:"root",className:t},_react2["default"].createElement("div",_extends({ref:"ratingContainer",className:"rsr rating-gly-star","data-content":this.state.glyph},a),this.getSvg(this.state.rating),_react2["default"].createElement("input",{type:"number",name:this.props.name,value:this.state.currentRatingVal,style:{display:"none !important"},min:this.min,max:this.max,readOnly:!0}))))}}]),e}(_react2["default"].Component);StarRating.propTypes={name:_react2["default"].PropTypes.string.isRequired,caption:_react2["default"].PropTypes.string,totalStars:_react2["default"].PropTypes.number.isRequired,rating:_react2["default"].PropTypes.number,onRatingClick:_react2["default"].PropTypes.func,disabled:_react2["default"].PropTypes.bool,editing:_react2["default"].PropTypes.bool,size:_react2["default"].PropTypes.number},StarRating.defaultProps={step:1,totalStars:5,onRatingClick:function(){},disabled:!1,size:50,rating:0},exports["default"]=StarRating;
+
+/***/ }),
+/* 266 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+
+	(function () {
+		'use strict';
+
+		var hasOwn = {}.hasOwnProperty;
+
+		function classNames () {
+			var classes = [];
+
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+
+				var argType = typeof arg;
+
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+
+			return classes.join(' ');
+		}
+
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ }),
+/* 267 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Display = __webpack_require__(262);
-	var JoinSpeaker = __webpack_require__(266);
-	var Attendance = __webpack_require__(267);
-	var Questions = __webpack_require__(268);
-	var CheckerForm = __webpack_require__(269);
-	var Result = __webpack_require__(272);
+	var JoinSpeaker = __webpack_require__(268);
+	var Attendance = __webpack_require__(269);
+	var Questions = __webpack_require__(270);
+	var CheckerForm = __webpack_require__(271);
+	var Result = __webpack_require__(274);
 
 	var Speaker = React.createClass({
 	  displayName: 'Speaker',
@@ -33305,7 +33343,7 @@
 	module.exports = Speaker;
 
 /***/ }),
-/* 266 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33351,7 +33389,7 @@
 	module.exports = JoinSpeaker;
 
 /***/ }),
-/* 267 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33423,7 +33461,7 @@
 	module.exports = Attendance;
 
 /***/ }),
-/* 268 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33491,14 +33529,14 @@
 	module.exports = Questions;
 
 /***/ }),
-/* 269 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var AdderS = __webpack_require__(270);
-	var AdderR = __webpack_require__(271);
+	var AdderS = __webpack_require__(272);
+	var AdderR = __webpack_require__(273);
 
 	var CheckerForm = React.createClass({
 	    displayName: 'CheckerForm',
@@ -33560,7 +33598,7 @@
 	module.exports = CheckerForm;
 
 /***/ }),
-/* 270 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33610,7 +33648,7 @@
 	module.exports = adderS;
 
 /***/ }),
-/* 271 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33651,7 +33689,7 @@
 	module.exports = adderR;
 
 /***/ }),
-/* 272 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33714,7 +33752,7 @@
 	module.exports = Result;
 
 /***/ }),
-/* 273 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33740,7 +33778,7 @@
 	module.exports = Board;
 
 /***/ }),
-/* 274 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';

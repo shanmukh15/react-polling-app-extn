@@ -2,6 +2,7 @@
 
 let React = require('react');
 let Display = require('./Display');
+let Rater = require('react-star-rating').default;
 
 const Ask = React.createClass({
 
@@ -42,16 +43,6 @@ const Ask = React.createClass({
         });
   },
 
-  addChoice(choice, i) {
-    if(choice != ''){
-      return(
-      <button onClick={this.selectChoice.bind(null, choice)} key={i} className={"col-xs-12 col-sm-6 btn"}>
-        {this.props.question[choice]}
-      </button>
-    );}
-    
-  },
-
   selectChoice(choice) {
     if(this.state.answer){
         this.props.emit('answer', {
@@ -72,27 +63,18 @@ const Ask = React.createClass({
     sessionStorage.answer = this.props.question[choice];
   },
       
-  submitRating() {
-    let rate = document.querySelector('input[name="rating"]:checked').value;
-    if(this.state.answer){
+  submitRating(data) {
+      let rate = data;
         this.props.emit('answer', {
             question: this.props.question,
-            choice: Number(rate) - Number(this.state.answer), 
+            choice: (this.state.answer) ? (Number(rate) - Number(this.state.answer)) : Number(rate), 
             update : true,
             old : ''
         });
-    }else {
-        this.props.emit('answer', {
-            question: this.props.question,
-            choice: Number(rate), 
-            update : false,
-            old : ''
-        });
-    }
-    this.setState({answer: rate});
-    sessionStorage.answer = rate;
+        this.setState({answer: rate});
+        sessionStorage.answer = rate;
   },
-
+      
   render() {
     return (
       <div id="currentQuestion">
@@ -106,19 +88,7 @@ const Ask = React.createClass({
         <Display if={this.props.question.type === "rating"}>
             <h2>{this.props.question.q}</h2>
             <div className="row">
-                <fieldset className="rating">
-                    <input type="radio" id="star5" name="rating" value="5" />
-                    <label forName="star5" title="5"></label>
-                    <input type="radio" id="star4" name="rating" value="4" />
-                    <label forName="star4" title="4"></label>
-                    <input type="radio" id="star3" name="rating" value="3" />
-                    <label forName="star3" title="3"></label>
-                    <input type="radio" id="star2" name="rating" value="2" />
-                    <label forName="star2" title="2"></label>
-                    <input type="radio" id="star1" name="rating" value="1" />
-                    <label forName="star1" title="1"></label>
-                </fieldset>
-                <div className="btn btn-danger submit" onClick={this.submitRating}>Submit</div>
+                <Rater name="sert" totalStars={7} size={30} onRatingClick={(e,data) => {e.preventDefault();e.stopPropagation();this.submitRating(data.rating);}} />
             </div>
         </Display>
 
@@ -130,6 +100,16 @@ const Ask = React.createClass({
         
       </div>
     );
+  },
+  
+  addChoice(choice, i) {
+    if(choice != ''){
+      return (
+      <button onClick={this.selectChoice.bind(null, choice)} key={i} className={"col-xs-12 col-sm-6 btn"}>
+        {this.props.question[choice]}
+      </button>
+    );
+   }  
   }
 });
 
