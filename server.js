@@ -43,24 +43,36 @@ io.on('connection', function(socket) {
     this.emit('joined', speaker);
     io.sockets.emit('start', {title: payload.title, speaker: speaker.name});
   });
+    
+  socket.on('reset', function(payload) {
+    currentQuestion = '';
+    io.sockets.emit('ask', {question: currentQuestion, results: results});
+  });
 
   socket.on('ask', function(question) {
     currentQuestion = question;
     results = {};      
-    Object.keys(question).forEach(function(key) {
-        if(key != 'q') {
-           results[question[key]]= 0;
+        if(question.type === "rating"){
+            results["Stars"] = 0;
+        }else {
+            Object.keys(question).forEach(function(key) {
+                if(key != 'q' && key != 'type') {    results[question[key]]= 0;      }
+            });
         }
-    });
     io.sockets.emit('ask', {question: currentQuestion, results: results});
   });
 
   socket.on('answer', function(payload) {
-    if(payload.update) {
-       results[payload.old]--;
-    }
-    results[payload.choice]++;
-    io.sockets.emit('resUpdate', results);
+    if(payload.question.type ==="survey"){
+        if(payload.update) {
+            results[payload.old]--;
+        }
+        results[payload.choice]++;
+        io.sockets.emit('resUpdate', results);
+    }else{
+        results["Stars"] = Number(results["Stars"]) + Number(payload.choice);
+        io.sockets.emit('resUpdate', results);
+       }
   });
   
   socket.on('addpoll', function(payload) {
